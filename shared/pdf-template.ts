@@ -1,0 +1,905 @@
+/**
+ * Shared PDF Template for both client and server-side PDF generation
+ * This ensures consistent styling between PDFs downloaded from the app
+ * and those accessed via email links.
+ */
+export function generatePdfTemplate(data: {
+  totalIncome: number;
+  needsTotal: number;
+  wantsTotal: number;
+  savingsTotal: number;
+  totalExpenses: number;
+  needsTarget: number;
+  wantsTarget: number;
+  savingsTarget: number;
+  income: number;
+  additionalIncome: number;
+  needs?: { name: string; amount: number }[];
+  wants?: { name: string; amount: number }[];
+  savings?: { name: string; amount: number }[];
+  date: string;
+  userName?: string; // Add userName as an optional parameter
+}) {
+  // Ensure all array properties exist even if undefined
+  const {
+    totalIncome,
+    needsTotal,
+    wantsTotal,
+    savingsTotal,
+    totalExpenses,
+    needsTarget,
+    wantsTarget,
+    savingsTarget,
+    income,
+    additionalIncome,
+    date,
+    userName, // Extract userName from the data
+  } = data;
+
+  const needs = data.needs || [];
+  const wants = data.wants || [];
+  const savings = data.savings || [];
+
+  // Format helpers
+  const formatCurrency = (amount: number) => `$${amount.toFixed(2)}`;
+  const formatPercentage = (amount: number, total: number) =>
+    `${((amount / total) * 100).toFixed(1)}%`;
+
+  return `
+  <!DOCTYPE html>
+ <html>
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>My College Finance Budget Report</title>
+   <style>
+     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+     :root {
+       --primary-color: #173F8F;
+       --secondary-color: #5a8de6;
+       --needs-color: #3498db;
+       --wants-color: #9b59b6;
+       --savings-color: #2ecc71;
+       --text-color: #2e3a59;
+       --light-gray: #f8fafc;
+       --border-color: #e0e6ed;
+     }
+
+     * {
+       box-sizing: border-box;
+       margin: 0;
+       padding: 0;
+     }
+
+     body {
+       font-family: 'Poppins', Arial, sans-serif;
+       margin: 0;
+       padding: 0;
+       color: var(--text-color);
+       line-height: 1.6;
+       background-color: white;
+     }
+
+     .container {
+       max-width: 800px;
+       margin: 0 auto;
+       padding: 30px 20px;
+       background-color: white;
+     }
+
+     .header {
+       text-align: center;
+       margin-bottom: 30px;
+       padding-bottom: 20px;
+       border-bottom: 1px solid var(--border-color);
+     }
+
+     .logo {
+       display: block;
+       margin: 0 auto 15px;
+       max-width: 150px;
+       height: auto;
+     }
+
+     .logo-button {
+       display: inline-block;
+       background-color: var(--primary-color);
+       color: white;
+       padding: 10px 20px;
+       border-radius: 5px;
+       font-weight: 600;
+       margin-bottom: 20px;
+     }
+
+     h1 {
+       font-size: 28px;
+       color: var(--primary-color);
+       margin-bottom: 10px;
+       font-weight: 800;
+     }
+
+     h2 {
+       font-size: 22px;
+       color: var(--primary-color);
+       margin-bottom: 15px;
+       font-weight: 600;
+     }
+
+     h3 {
+       font-size: 18px;
+       font-weight: 600;
+       margin: 0 0 10px 0;
+     }
+
+     .subtitle {
+       color: #6f7685;
+       font-size: 15px;
+       max-width: 600px;
+       margin: 0 auto 15px;
+     }
+
+     .date-generated {
+       color: #6f7685;
+       font-size: 14px;
+     }
+
+     .budget-summary {
+       text-align: center;
+       background-color: var(--light-gray);
+       border-radius: 10px;
+       padding: 20px;
+       margin: 20px 0 30px;
+     }
+
+     .amount {
+       font-size: 32px;
+       font-weight: 700;
+       margin: 10px 0;
+     }
+
+     .positive {
+       color: #2ecc71;
+     }
+
+     .negative {
+       color: #e74c3c;
+     }
+
+     .neutral {
+       color: var(--primary-color);
+     }
+
+     .budget-cards {
+       display: flex;
+       flex-wrap: wrap;
+       gap: 20px;
+       margin: 30px 0;
+     }
+
+     .budget-card {
+       flex: 1;
+       min-width: 220px;
+       background-color: white;
+       border-radius: 10px;
+       overflow: hidden;
+       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+     }
+
+     .card-header {
+       padding: 15px;
+       text-align: center;
+       color: white;
+     }
+
+     .needs-header {
+       background-color: var(--needs-color);
+     }
+
+     .wants-header {
+       background-color: var(--wants-color);
+     }
+
+     .savings-header {
+       background-color: var(--savings-color);
+     }
+
+     .card-icon {
+       display: inline-block;
+       background-color: rgba(255,255,255,0.2);
+       width: 40px;
+       height: 40px;
+       border-radius: 50%;
+       line-height: 40px;
+       text-align: center;
+       font-size: 20px;
+       margin-bottom: 10px;
+     }
+
+     .card-body {
+       padding: 15px;
+       text-align: center;
+     }
+
+     .card-amount {
+       font-size: 20px;
+       font-weight: 700;
+       margin: 10px 0;
+       color: var(--text-color);
+     }
+
+     .card-target {
+       font-size: 14px;
+       color: #6f7685;
+       margin-bottom: 10px;
+     }
+
+     .progress-container {
+       height: 8px;
+       background-color: #edf2f7;
+       border-radius: 4px;
+       margin: 15px 0;
+       overflow: hidden;
+     }
+
+     .progress-bar {
+       height: 100%;
+       border-radius: 4px;
+     }
+
+     .needs-progress {
+       background-color: var(--needs-color);
+     }
+
+     .wants-progress {
+       background-color: var(--wants-color);
+     }
+
+     .savings-progress {
+       background-color: var(--savings-color);
+     }
+
+     .card-percentage {
+       font-size: 14px;
+       color: #6f7685;
+     }
+
+     .section {
+       background-color: white;
+       border-radius: 10px;
+       padding: 20px;
+       margin: 25px 0;
+       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+     }
+
+     .section-header {
+       display: flex;
+       align-items: center;
+       margin-bottom: 15px;
+     }
+
+     .section-icon {
+       width: 30px;
+       height: 30px;
+       background-color: #edf2f7;
+       border-radius: 50%;
+       text-align: center;
+       line-height: 30px;
+       margin-right: 10px;
+       font-size: 16px;
+     }
+
+     .budget-row {
+       display: flex;
+       justify-content: space-between;
+       padding: 12px 0;
+       border-bottom: 1px solid var(--border-color);
+     }
+
+     .budget-row:last-child {
+       border-bottom: none;
+     }
+
+     .budget-label {
+       display: flex;
+       align-items: center;
+     }
+
+     .badge {
+       display: inline-block;
+       padding: 3px 8px;
+       font-size: 12px;
+       border-radius: 20px;
+       margin-left: 10px;
+       font-weight: 500;
+     }
+
+     .badge-over {
+       background-color: #fff5f5;
+       color: #e74c3c;
+     }
+
+     .badge-under {
+       background-color: #f0fff4;
+       color: #2ecc71;
+     }
+
+     .badge-on-target {
+       background-color: #ebf8ff;
+       color: #3498db;
+     }
+
+     .total-row {
+       font-weight: 600;
+       border-top: 2px solid var(--border-color);
+       margin-top: 10px;
+       padding-top: 10px;
+     }
+
+     .tips-section {
+       background-color: #fffbeb;
+       border-radius: 10px;
+       padding: 20px;
+       margin: 25px 0;
+       border-left: 4px solid #f59e0b;
+     }
+
+     .tips-header {
+       display: flex;
+       align-items: center;
+       margin-bottom: 15px;
+       font-weight: 600;
+       color: #92400e;
+     }
+
+     .tips-icon {
+       margin-right: 10px;
+     }
+
+     .tips-list {
+       list-style-type: none;
+     }
+
+     .tips-list li {
+       margin-bottom: 10px;
+       padding-left: 20px;
+       position: relative;
+     }
+
+     .tips-list li:before {
+       content: "•";
+       position: absolute;
+       left: 0;
+       color: #f59e0b;
+       font-weight: bold;
+     }
+
+     .breakdown-section {
+       background-color: white;
+       border-radius: 10px;
+       margin: 25px 0;
+       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+       overflow: hidden;
+     }
+
+     .breakdown-header {
+       padding: 15px 20px;
+       color: white;
+     }
+
+     .needs-breakdown-header {
+       background-color: var(--needs-color);
+     }
+
+     .wants-breakdown-header {
+       background-color: var(--wants-color);
+     }
+
+     .savings-breakdown-header {
+       background-color: var(--savings-color);
+     }
+
+     .breakdown-body {
+       padding: 20px;
+     }
+
+     table {
+       width: 100%;
+       border-collapse: collapse;
+     }
+
+     th, td {
+       padding: 12px 15px;
+       text-align: left;
+     }
+
+     th {
+       background-color: #f8fafc;
+       font-weight: 600;
+       color: var(--text-color);
+     }
+
+     td {
+       border-bottom: 1px solid var(--border-color);
+     }
+
+     tr:last-child td {
+       border-bottom: none;
+     }
+
+     .amount-column {
+       text-align: right;
+       font-weight: 500;
+     }
+
+     .footer {
+       text-align: center;
+       margin-top: 40px;
+       padding-top: 20px;
+       border-top: 1px solid var(--border-color);
+     }
+
+     .footer-logo {
+       max-width: 100px;
+       margin: 0 auto 10px;
+     }
+
+     .footer-text {
+       font-size: 12px;
+       color: #6f7685;
+       line-height: 1.6;
+     }
+
+     .footer-link {
+       color: var(--primary-color);
+       text-decoration: none;
+       font-weight: 500;
+     }
+
+     @media (max-width: 768px) {
+       .budget-cards {
+         flex-direction: column;
+       }
+
+       .budget-card {
+         width: 100%;
+       }
+     }
+
+     @media print {
+       body {
+         font-size: 12pt;
+       }
+
+       .container {
+         max-width: 100%;
+         padding: 10px;
+       }
+
+       .budget-cards {
+         flex-wrap: nowrap;
+         gap: 10px;
+       }
+
+       .budget-card {
+         break-inside: avoid;
+       }
+
+       .section, .breakdown-section, .tips-section {
+         break-inside: avoid;
+       }
+
+       .page-break {
+         page-break-after: always;
+       }
+     }
+
+     .download-button-container {
+   text-align: center;
+   margin: 20px 0;
+ }
+
+ .download-button {
+   background-color: var(--primary-color);
+   color: white;
+   border: none;
+   border-radius: 30px;
+   padding: 10px 20px;
+   font-family: 'Poppins', Arial, sans-serif;
+   font-size: 14px;
+   font-weight: 600;
+   cursor: pointer;
+   display: inline-flex;
+   align-items: center;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+   transition: all 0.3s ease;
+ }
+
+ .download-button:hover {
+   background-color: var(--secondary-color);
+   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+   transform: translateY(-2px);
+ }
+
+ .button-icon {
+   margin-right: 8px;
+ }
+
+ /* For print view, hide the download buttons */
+ @media print {
+   .download-button-container {
+     display: none;
+   }
+ }
+
+ /* Responsive styling for mobile */
+ @media (max-width: 480px) {
+   .download-button {
+     width: 100%;
+     justify-content: center;
+     padding: 12px 20px;
+     font-size: 16px;
+   }
+ }
+   </style>
+ </head>
+ <body>
+   <div class="container">
+     <div class="header">
+       <a href="https://www.mycollegefinance.com/" target="_blank" rel="noopener noreferrer" style="display: block; text-align: center;">
+         <img src="https://static.wixstatic.com/media/c24a60_2b6231b666214539ae22ebd2dffe7a09~mv2.png" alt="My College Finance" class="logo">
+       </a>
+       <h1>50/30/20 Budget Report</h1>
+       <div class="subtitle">Personalized financial breakdown based on your inputs</div>
+       <div class="date-generated">Generated on ${new Date().toLocaleDateString()}</div>
+     </div>
+     <!-- Personalized Greeting Section -->
+ <div style="background-color: #e8f3ff; border-radius: 12px; padding: 20px; margin-bottom: 25px; border-left: 4px solid #173F8F;">
+   <p style="margin: 0; font-size: 18px;">
+     Hi ${data.userName || "there"},
+   </p>
+   <p style="margin-top: 10px; font-size: 16px;">
+     Here's your personalized 50/30/20 budget breakdown based on the information you provided.
+   </p>
+ </div>
+     <!-- PDF Download Button (Top) -->
+ <div class="download-button-container">
+   <button onclick="window.print()" class="download-button">
+     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon">
+       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+       <polyline points="7 10 12 15 17 10"></polyline>
+       <line x1="12" y1="15" x2="12" y2="3"></line>
+     </svg>
+     Download PDF Report
+   </button>
+ </div>
+     <!-- Budget Summary -->
+     <div class="budget-summary">
+       <h2>Budget Summary</h2>
+       <div class="amount ${totalIncome - totalExpenses > 0 ? "positive" : totalIncome - totalExpenses < 0 ? "negative" : "neutral"}">
+         ${totalIncome - totalExpenses >= 0 ? "+" : ""}${formatCurrency(totalIncome - totalExpenses)}
+       </div>
+       <div>
+         ${
+           totalIncome - totalExpenses > 0
+             ? "You have funds remaining to allocate"
+             : totalIncome - totalExpenses < 0
+               ? "You have exceeded your budget"
+               : "Your budget is perfectly balanced"
+         }
+       </div>
+     </div>
+
+
+     <!-- Budget Cards -->
+     <div class="budget-cards">
+       <!-- Needs Card -->
+       <div class="budget-card">
+         <div class="card-header needs-header">
+           <div class="card-icon">🏠</div>
+           <h3>Needs (50%)</h3>
+         </div>
+         <div class="card-body">
+           <div class="card-amount">${formatCurrency(needsTotal)}</div>
+           <div class="card-target">Target: ${formatCurrency(needsTarget)}</div>
+           <div class="progress-container">
+             <div class="progress-bar needs-progress" style="width: ${Math.min(100, Math.round((needsTotal / needsTarget) * 100))}%"></div>
+           </div>
+           <div class="card-percentage">${formatPercentage(needsTotal, totalIncome)} of income</div>
+         </div>
+       </div>
+
+       <!-- Wants Card -->
+       <div class="budget-card">
+         <div class="card-header wants-header">
+           <div class="card-icon">🎮</div>
+           <h3>Wants (30%)</h3>
+         </div>
+         <div class="card-body">
+           <div class="card-amount">${formatCurrency(wantsTotal)}</div>
+           <div class="card-target">Target: ${formatCurrency(wantsTarget)}</div>
+           <div class="progress-container">
+             <div class="progress-bar wants-progress" style="width: ${Math.min(100, Math.round((wantsTotal / wantsTarget) * 100))}%"></div>
+           </div>
+           <div class="card-percentage">${formatPercentage(wantsTotal, totalIncome)} of income</div>
+         </div>
+       </div>
+
+       <!-- Savings Card -->
+       <div class="budget-card">
+         <div class="card-header savings-header">
+           <div class="card-icon">💰</div>
+           <h3>Savings (20%)</h3>
+         </div>
+         <div class="card-body">
+           <div class="card-amount">${formatCurrency(savingsTotal)}</div>
+           <div class="card-target">Target: ${formatCurrency(savingsTarget)}</div>
+           <div class="progress-container">
+             <div class="progress-bar savings-progress" style="width: ${Math.min(100, Math.round((savingsTotal / savingsTarget) * 100))}%"></div>
+           </div>
+           <div class="card-percentage">${formatPercentage(savingsTotal, totalIncome)} of income</div>
+         </div>
+       </div>
+     </div>
+
+     <!-- Income Summary Section -->
+     <div class="section">
+       <div class="section-header">
+         <div class="section-icon">💰</div>
+         <h2>Income Summary</h2>
+       </div>
+       <div class="budget-row">
+         <span>Primary Income:</span>
+         <span>${formatCurrency(data.income)}</span>
+       </div>
+       <div class="budget-row">
+         <span>Additional Income:</span>
+         <span>${formatCurrency(data.additionalIncome || 0)}</span>
+       </div>
+       <div class="budget-row total-row">
+         <span>Total Income:</span>
+         <span>${formatCurrency(data.totalIncome)}</span>
+       </div>
+     </div>
+
+     <!-- Budget Analysis Section -->
+     <div class="section">
+       <div class="section-header">
+         <div class="section-icon">📊</div>
+         <h2>Budget Analysis</h2>
+       </div>
+       <div class="budget-row">
+         <div class="budget-label">
+           Needs (50%)
+           <span class="badge ${needsTotal > needsTarget * 1.1 ? "badge-over" : needsTotal < needsTarget * 0.9 ? "badge-under" : "badge-on-target"}">
+             ${needsTotal > needsTarget * 1.1 ? "↑ OVER" : needsTotal < needsTarget * 0.9 ? "↓ UNDER" : "✓ ON TARGET"}
+           </span>
+         </div>
+         <span>${formatCurrency(needsTotal)} / ${formatCurrency(needsTarget)}</span>
+       </div>
+       <div class="budget-row">
+         <div class="budget-label">
+           Wants (30%)
+           <span class="badge ${wantsTotal > wantsTarget * 1.1 ? "badge-over" : wantsTotal < wantsTarget * 0.9 ? "badge-under" : "badge-on-target"}">
+             ${wantsTotal > wantsTarget * 1.1 ? "↑ OVER" : wantsTotal < wantsTarget * 0.9 ? "↓ UNDER" : "✓ ON TARGET"}
+           </span>
+         </div>
+         <span>${formatCurrency(wantsTotal)} / ${formatCurrency(wantsTarget)}</span>
+       </div>
+       <div class="budget-row">
+         <div class="budget-label">
+           Savings (20%)
+           <span class="badge ${savingsTotal > savingsTarget * 1.1 ? "badge-over" : savingsTotal < savingsTarget * 0.9 ? "badge-under" : "badge-on-target"}">
+             ${savingsTotal > savingsTarget * 1.1 ? "↑ OVER" : savingsTotal < savingsTarget * 0.9 ? "↓ UNDER" : "✓ ON TARGET"}
+           </span>
+         </div>
+         <span>${formatCurrency(savingsTotal)} / ${formatCurrency(savingsTarget)}</span>
+       </div>
+       <div class="budget-row total-row">
+         <span>Total Expenses:</span>
+         <span>${formatCurrency(totalExpenses)}</span>
+       </div>
+     </div>
+
+     <!-- Budget Tips Section -->
+     <div class="tips-section">
+       <div class="tips-header">
+         <span class="tips-icon">💡</span>
+         <span>Budget Tips</span>
+       </div>
+       <ul class="tips-list">
+         ${
+           needsTotal > needsTarget
+             ? `
+           <li>Your needs spending is above the recommended 50%. Consider reviewing essential expenses to identify potential savings.</li>
+         `
+             : ""
+         }
+         ${
+           wantsTotal > wantsTarget
+             ? `
+           <li>Your wants spending exceeds the 30% target. Try tracking discretionary spending for a month to identify areas to cut back.</li>
+         `
+             : ""
+         }
+         ${
+           savingsTotal < savingsTarget
+             ? `
+           <li>Your savings are below the 20% recommendation. Consider automating transfers to savings on payday.</li>
+         `
+             : ""
+         }
+         ${
+           savingsTotal >= savingsTarget
+             ? `
+           <li>Great job on meeting your savings goal! Consider allocating extra funds to emergency savings or retirement accounts.</li>
+         `
+             : ""
+         }
+         <li>The 50/30/20 rule is a guideline – adjust percentages based on your specific financial situation and goals.</li>
+       </ul>
+     </div>
+
+     <div class="page-break"></div>
+
+     <!-- Needs Breakdown Section -->
+     ${
+       data.needs && data.needs.length > 0
+         ? `
+     <div class="breakdown-section">
+       <div class="breakdown-header needs-breakdown-header">
+         <div class="section-header" style="margin-bottom: 0;">
+           <div class="section-icon" style="background-color: rgba(255,255,255,0.2); color: white;">🏠</div>
+           <h2 style="color: white; margin-bottom: 0;">Needs Breakdown</h2>
+         </div>
+       </div>
+       <div class="breakdown-body">
+         <table>
+           <thead>
+             <tr>
+               <th>Item</th>
+               <th class="amount-column">Amount</th>
+             </tr>
+           </thead>
+           <tbody>
+             ${data.needs
+               .map(
+                 (item: { name: string; amount: number }) => `
+               <tr>
+                 <td>${item.name}</td>
+                 <td class="amount-column">${formatCurrency(item.amount)}</td>
+               </tr>
+             `,
+               )
+               .join("")}
+             <tr>
+               <td><strong>Total Needs</strong></td>
+               <td class="amount-column"><strong>${formatCurrency(needsTotal)}</strong></td>
+             </tr>
+           </tbody>
+         </table>
+       </div>
+     </div>
+     `
+         : ""
+     }
+
+     <!-- Wants Breakdown Section -->
+     ${
+       data.wants && data.wants.length > 0
+         ? `
+     <div class="breakdown-section">
+       <div class="breakdown-header wants-breakdown-header">
+         <div class="section-header" style="margin-bottom: 0;">
+           <div class="section-icon" style="background-color: rgba(255,255,255,0.2); color: white;">🎮</div>
+           <h2 style="color: white; margin-bottom: 0;">Wants Breakdown</h2>
+         </div>
+       </div>
+       <div class="breakdown-body">
+         <table>
+           <thead>
+             <tr>
+               <th>Item</th>
+               <th class="amount-column">Amount</th>
+             </tr>
+           </thead>
+           <tbody>
+             ${data.wants
+               .map(
+                 (item: { name: string; amount: number }) => `
+               <tr>
+                 <td>${item.name}</td>
+                 <td class="amount-column">${formatCurrency(item.amount)}</td>
+               </tr>
+             `,
+               )
+               .join("")}
+             <tr>
+               <td><strong>Total Wants</strong></td>
+               <td class="amount-column"><strong>${formatCurrency(wantsTotal)}</strong></td>
+             </tr>
+           </tbody>
+         </table>
+       </div>
+     </div>
+     `
+         : ""
+     }
+
+     <!-- Savings Breakdown Section -->
+     ${
+       data.savings && data.savings.length > 0
+         ? `
+     <div class="breakdown-section">
+       <div class="breakdown-header savings-breakdown-header">
+         <div class="section-header" style="margin-bottom: 0;">
+           <div class="section-icon" style="background-color: rgba(255,255,255,0.2); color: white;">💰</div>
+           <h2 style="color: white; margin-bottom: 0;">Savings & Debt Breakdown</h2>
+         </div>
+       </div>
+       <div class="breakdown-body">
+         <table>
+           <thead>
+             <tr>
+               <th>Item</th>
+               <th class="amount-column">Amount</th>
+             </tr>
+           </thead>
+           <tbody>
+             ${data.savings
+               .map(
+                 (item: { name: string; amount: number }) => `
+               <tr>
+                 <td>${item.name}</td>
+                 <td class="amount-column">${formatCurrency(item.amount)}</td>
+               </tr>
+             `,
+               )
+               .join("")}
+             <tr>
+               <td><strong>Total Savings & Debt</strong></td>
+               <td class="amount-column"><strong>${formatCurrency(savingsTotal)}</strong></td>
+             </tr>
+           </tbody>
+         </table>
+       </div>
+     </div>
+     `
+         : ""
+     }
+
+     <!-- PDF Download Button (Bottom) -->
+ <div class="download-button-container" style="margin-top: 30px;">
+   <button onclick="window.print()" class="download-button">
+     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon">
+       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+       <polyline points="7 10 12 15 17 10"></polyline>
+       <line x1="12" y1="15" x2="12" y2="3"></line>
+     </svg>
+     Download PDF Report
+   </button>
+ </div>
+
+     <div class="footer">
+       <img src="https://static.wixstatic.com/media/c24a60_2b6231b666214539ae22ebd2dffe7a09~mv2.png" alt="My College Finance" class="footer-logo">
+       <div class="footer-text">
+         Generated with My College Finance 50/30/20 Budget Calculator • v2.0.4 (Beta)<br>
+         Visit <a href="https://www.mycollegefinance.com" class="footer-link">mycollegefinance.com</a> for more financial tools and resources.
+       </div>
+     </div>
+   </div>
+
+   <script>
+     // Add print functionality
+     window.onload = function() {
+       document.querySelectorAll('.print-button').forEach(function(button) {
+         button.addEventListener('click', function() {
+           window.print();
+         });
+       });
+     };
+   </script>
+ </body>
+ </html>
+`;
+}

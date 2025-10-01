@@ -1,0 +1,568 @@
+<div
+  style="
+    font-family: &quot;Poppins&quot;, &quot;Helvetica Neue&quot;, Arial,
+      sans-serif;
+    color: #2e3a59;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+    background-color: #f9fafc;
+    border-radius: 16px;
+  "
+>
+  <!-- Header with Logo -->
+  <div style="text-align: center; margin-bottom: 30px">
+    <a
+      href="https://www.mycollegefinance.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      style="display: block; margin: 0 auto 15px"
+    >
+      <img
+        src="https://static.wixstatic.com/media/c24a60_2b6231b666214539ae22ebd2dffe7a09~mv2.png"
+        alt="My College Finance"
+        style="max-width: 180px; height: auto"
+      />
+    </a>
+    <h1
+      style="
+        color: #173f8f;
+        font-size: 28px;
+        margin: 0 0 10px 0;
+        font-weight: 700;
+      "
+    >
+      Your 50/30/20 Budget Summary
+    </h1>
+    <p style="color: #6b7280; margin: 0; font-size: 16px">
+      Simple budgeting for smarter decisions
+    </p>
+  </div>
+
+  <!-- Welcome Banner -->
+  <div
+    style="
+      background-color: #e8f3ff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-left: 5px solid #173f8f;
+    "
+  >
+    <p style="margin: 0; font-size: 16px">{{user_name}},</p>
+    <p style="margin-top: 10px; font-size: 16px">
+      Thanks for using the <strong>50/30/20 Budget Calculator</strong> by
+      <a
+        style="color: #173f8f; text-decoration: none; font-weight: 600"
+        href="https://www.mycollegefinance.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        >My College Finance</a
+      >.
+    </p>
+  </div>
+
+  <!-- Budget Results Overview -->
+  <div
+    style="
+      background-color: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    "
+  >
+    <p style="margin: 0 0 20px 0; font-size: 16px">
+      Based on your monthly income, here's your ideal budget breakdown:
+    </p>
+
+    <!-- Budget Cards Container -->
+    <div style="display: block; margin: 25px 0">
+      <!-- Needs Card -->
+      <div
+        style="
+          background: linear-gradient(135deg, #2185d0 0%, #4ca2e0 100%);
+          border-radius: 12px;
+          padding: 20px;
+          margin-bottom: 15px;
+          color: white;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <div
+            style="
+              background-color: rgba(255, 255, 255, 0.2);
+              border-radius: 50%;
+              width: 44px;
+              height: 44px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 15px;
+              line-height: 1;
+              text-align: center;
+            "
+          >
+            <span
+              style="
+                font-size: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+              "
+              >🏠</span
+            >
+          </div>
+          <div>
+            <p style="margin: 0; font-size: 16px; opacity: 0.9">Needs (50%)</p>
+            <h2 style="margin: 5px 0 0 0; font-size: 24px; font-weight: 700">
+              ${{needs_total}}
+            </h2>
+          </div>
+        </div>
+        <p style="margin: 15px 0 0 0; font-size: 14px; opacity: 0.9">
+          Essential expenses like rent, groceries, utilities, transportation,
+          and insurance
+        </p>
+      </div>
+
+      <!-- Wants Card -->
+      <div
+        style="
+          background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+          border-radius: 12px;
+          padding: 20px;
+          margin-bottom: 15px;
+          color: white;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <div
+            style="
+              background-color: rgba(255, 255, 255, 0.2);
+              border-radius: 50%;
+              width: 44px;
+              height: 44px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 15px;
+              line-height: 1;
+              text-align: center;
+            "
+          >
+            <span
+              style="
+                font-size: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+              "
+              >🎮</span
+            >
+          </div>
+          <div>
+            <p style="margin: 0; font-size: 16px; opacity: 0.9">Wants (30%)</p>
+            <h2 style="margin: 5px 0 0 0; font-size: 24px; font-weight: 700">
+              ${{wants_total}}
+            </h2>
+          </div>
+        </div>
+        <p style="margin: 15px 0 0 0; font-size: 14px; opacity: 0.9">
+          Lifestyle choices like dining out, subscriptions, entertainment, and
+          non-essential shopping
+        </p>
+      </div>
+
+      <!-- Savings Card -->
+      <div
+        style="
+          background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+          border-radius: 12px;
+          padding: 20px;
+          margin-bottom: 5px;
+          color: white;
+        "
+      >
+        <div style="display: flex; align-items: center">
+          <div
+            style="
+              background-color: rgba(255, 255, 255, 0.2);
+              border-radius: 50%;
+              width: 44px;
+              height: 44px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 15px;
+              line-height: 1;
+              text-align: center;
+            "
+          >
+            <span
+              style="
+                font-size: 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+              "
+              >💰</span
+            >
+          </div>
+          <div>
+            <p style="margin: 0; font-size: 16px; opacity: 0.9">
+              Savings & Debt (20%)
+            </p>
+            <h2 style="margin: 5px 0 0 0; font-size: 24px; font-weight: 700">
+              ${{savings_total}}
+            </h2>
+          </div>
+        </div>
+        <p style="margin: 15px 0 0 0; font-size: 14px; opacity: 0.9">
+          Emergency fund, investments, retirement savings, and debt repayment
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Budget Summary Box -->
+  <div
+    style="
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      padding: 25px;
+      margin-bottom: 25px;
+    "
+  >
+    <div style="display: flex; align-items: center; margin-bottom: 20px">
+      <div
+        style="
+          background-color: #173f8f;
+          color: white;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 12px;
+          line-height: 1;
+          text-align: center;
+        "
+      >
+        <span
+          style="
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+          "
+          >💼</span
+        >
+      </div>
+      <h3 style="color: #173f8f; margin: 0; font-size: 20px; font-weight: 600">
+        Budget Summary
+      </h3>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse">
+      <tr style="border-bottom: 1px solid #e5e7eb">
+        <td style="padding: 12px 0; color: #4b5563; font-weight: 500">
+          Total Income:
+        </td>
+        <td
+          style="
+            padding: 12px 0;
+            text-align: right;
+            font-weight: 600;
+            color: #173f8f;
+          "
+        >
+          ${{total_income}}
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #e5e7eb">
+        <td style="padding: 12px 0; color: #4b5563; font-weight: 500">
+          Needs Total:
+        </td>
+        <td
+          style="
+            padding: 12px 0;
+            text-align: right;
+            font-weight: 600;
+            color: #2185d0;
+          "
+        >
+          ${{needs_total}}
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #e5e7eb">
+        <td style="padding: 12px 0; color: #4b5563; font-weight: 500">
+          Wants Total:
+        </td>
+        <td
+          style="
+            padding: 12px 0;
+            text-align: right;
+            font-weight: 600;
+            color: #8e44ad;
+          "
+        >
+          ${{wants_total}}
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #e5e7eb">
+        <td style="padding: 12px 0; color: #4b5563; font-weight: 500">
+          Savings & Debt Total:
+        </td>
+        <td
+          style="
+            padding: 12px 0;
+            text-align: right;
+            font-weight: 600;
+            color: #27ae60;
+          "
+        >
+          ${{savings_total}}
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 12px 0; color: #4b5563; font-weight: 500">
+          Generated on:
+        </td>
+        <td style="padding: 12px 0; text-align: right; color: #6b7280">
+          {{date}}
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Optional raw data block for internal use -->
+  <pre style="display: none">{{budget_json}}</pre>
+
+  <!-- PDF Download Section -->
+  <div
+    style="
+      background: linear-gradient(135deg, #e8f3ff 0%, #f0f7ff 100%);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      text-align: center;
+      border: 1px dashed #94c0fd;
+    "
+  >
+    <div
+      style="
+        background-color: #173f8f;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        line-height: 1;
+        text-align: center;
+      "
+    >
+      <span
+        style="
+          font-size: 28px;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+        "
+        >📄</span
+      >
+    </div>
+    <h3
+      style="
+        margin: 0 0 10px 0;
+        color: #173f8f;
+        font-size: 20px;
+        font-weight: 700;
+      "
+    >
+      Download Your Complete Budget Report
+    </h3>
+    <p
+      style="
+        margin: 0 0 20px 0;
+        font-size: 16px;
+        color: #4b5563;
+        max-width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+      "
+    >
+      Get your comprehensive PDF report with detailed breakdowns and
+      personalized recommendations
+    </p>
+    <a
+      href="{{download_url}}"
+      target="_blank"
+      rel="noopener noreferrer"
+      style="
+        display: inline-block;
+        background-color: #173f8f;
+        color: white;
+        font-weight: 600;
+        padding: 14px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(23, 63, 143, 0.25);
+        font-size: 16px;
+      "
+    >
+      Download PDF Report
+    </a>
+  </div>
+
+  <!-- Resources Section -->
+  <div
+    style="
+      background-color: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    "
+  >
+    <h3 style="color: #173f8f; margin: 0 0 15px 0; font-size: 18px">
+      Take Your Financial Knowledge Further
+    </h3>
+
+    <div style="display: flex; margin-bottom: 15px">
+      <div
+        style="
+          background-color: #e8f3ff;
+          color: #173f8f;
+          border-radius: 50%;
+          min-width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 15px;
+          line-height: 1;
+          text-align: center;
+        "
+      >
+        <span
+          style="
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+          "
+          >📚</span
+        >
+      </div>
+      <div>
+        <a
+          href="https://www.mycollegefinance.com/knowledge-bank"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="
+            color: #173f8f;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+          "
+        >
+          Knowledge Bank
+        </a>
+        <p style="margin: 0; font-size: 14px; color: #6b7280">
+          Explore articles, guides, and resources on personal finance
+        </p>
+      </div>
+    </div>
+
+    <div style="display: flex">
+      <div
+        style="
+          background-color: #e8f3ff;
+          color: #173f8f;
+          border-radius: 50%;
+          min-width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 15px;
+          line-height: 1;
+          text-align: center;
+        "
+      >
+        <span
+          style="
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+          "
+          >🎓</span
+        >
+      </div>
+      <div>
+        <a
+          href="https://www.mycollegefinance.com/online-finance-courses"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="
+            color: #173f8f;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+          "
+        >
+          Finance Courses
+        </a>
+        <p style="margin: 0; font-size: 14px; color: #6b7280">
+          Take our guided courses to master your personal finances
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div
+    style="text-align: center; padding-top: 20px; border-top: 1px solid #e5e7eb"
+  >
+    <p style="margin: 0 0 15px 0; font-size: 16px">
+      Budget smarter, live better ✨
+    </p>
+    <p style="margin: 0 0 20px 0; font-weight: 700; color: #173f8f">
+      — The My College Finance Team
+    </p>
+
+    <div style="color: #9ca3af; font-size: 13px; line-height: 1.5">
+      <p style="margin: 0 0 5px 0">
+        This email was generated by your use of the 50/30/20 Budget Calculator.
+      </p>
+      <a
+        href="https://www.mycollegefinance.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="color: #173f8f; text-decoration: none"
+      >
+        mycollegefinance.com
+      </a>
+      <p style="margin: 10px 0 0 0; color: #9ca3af; font-size: 12px">
+        &copy; 2025 My College Finance. All rights reserved.
+      </p>
+    </div>
+  </div>
+</div>
