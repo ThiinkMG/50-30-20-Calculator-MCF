@@ -2,23 +2,65 @@
 
 A calculator created by **Thiink Media Graphics** for My College Finance, implementing the popular 50/30/20 budgeting rule to help users allocate their income into needs, wants, and savings.
 
-## Live Demo
+## 🌟 Features
 
-🌐 **Test the application:** [https://thiinkmg.github.io/50-30-20-Calculator-MCF/](https://thiinkmg.github.io/50-30-20-Calculator-MCF/)
+- **Smart Budget Calculator**: Calculate monthly budget allocations using the proven 50/30/20 rule
+- **Interactive Budget Planning**: Visual breakdown of needs (50%), wants (30%), and savings (20%)
+- **Progress Visualization**: Track your financial progress with interactive charts and insights
+- **PDF Export**: Generate and download detailed budget reports as PDF documents
+- **Social Sharing**: Share your budget insights across social media platforms
+- **Email Integration**: Send budget reports directly via email using EmailJS
+- **Google Drive Sync**: Save and sync your budget data with Google Drive
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Dark/Light Theme**: Toggle between dark and light themes for comfortable viewing
+- **Local Storage**: All data is stored locally in your browser for privacy
 
-A modern, responsive budget calculator that helps you allocate your income using the 50-30-20 rule (50% needs, 30% wants, 20% savings).
+## 🚀 Live Demo
 
-## Features
+**Test the application:** [https://thiinkmg.github.io/50-30-20-Calculator-MCF/](https://thiinkmg.github.io/50-30-20-Calculator-MCF/)
 
-- Interactive budget calculator with the 50-30-20 rule
-- Modern, responsive UI built with React and Tailwind CSS
-- PDF report generation
-- Social sharing capabilities
-- Email integration with EmailJS
-- Google Drive integration
-- Dark/light theme support
+## 🛠️ Technology Stack
 
-## Local Development
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: Tailwind CSS with custom components
+- **UI Components**: Radix UI components with shadcn/ui
+- **State Management**: React Query for data fetching and caching
+- **Routing**: Wouter for lightweight routing
+- **Charts**: Chart.js for data visualization
+- **PDF Generation**: jsPDF for client-side PDF generation
+- **Email Service**: EmailJS for email functionality
+- **Deployment**: GitHub Pages for static hosting
+
+## 📱 Key Components
+
+- **Budget Calculator**: Core calculation engine for 50/30/20 rule
+- **Budget Insights**: Interactive charts and financial analysis
+- **Budget Summary**: Comprehensive overview of your financial allocation
+- **Budget Recommendations**: Personalized financial advice and tips
+- **Email Modal**: Seamless email integration for sharing reports
+- **Share Widget**: Social media sharing capabilities
+- **Settings Panel**: Customization and data management options
+
+## 🎯 Target Audience
+
+Designed specifically for:
+
+- **College Students**: Managing tuition, books, and living expenses
+- **Young Adults**: Planning for major purchases, emergency funds, and future goals
+- **Budget Planning**: Anyone looking to implement the proven 50/30/20 budgeting method
+- **Financial Education**: Learning proper money allocation and financial discipline
+
+## 🔧 Development
+
+This project uses modern web technologies and follows best practices for:
+
+- TypeScript for type safety
+- Responsive design principles
+- Accessibility standards
+- Performance optimization
+- Clean code architecture
+
+### Local Development
 
 1. Install dependencies:
    ```bash
@@ -40,18 +82,6 @@ A modern, responsive budget calculator that helps you allocate your income using
    npm run preview
    ```
 
-## Deployment
-
-This project is configured for GitHub Pages deployment. The site will be available at:
-`https://yourusername.github.io/50-30-20-Calculator-MCF/`
-
-### GitHub Pages Setup
-
-1. Push your code to a GitHub repository
-2. Go to repository Settings → Pages
-3. Under Source, select "GitHub Actions"
-4. The deployment workflow will automatically build and deploy your site
-
 ### Environment Variables
 
 For full functionality, you'll need to configure:
@@ -59,19 +89,8 @@ For full functionality, you'll need to configure:
 - EmailJS service ID, template ID, and public key
 - Google Drive API credentials (if using Google Drive features)
 
-## Tech Stack
+## 📄 License
 
-- React 18
-- TypeScript
-- Vite
-- Tailwind CSS
-- Radix UI components
-- Wouter for routing
-- React Query for state management
-- Chart.js for data visualization
-- EmailJS for email functionality
-- jsPDF for PDF generation
+This project is licensed under the terms specified in the LICENSE file.
 
-## License
-
-MIT
+**Created by Thiink Media Graphics for My College Finance**
