@@ -1,6 +1,6 @@
 # 50-30-20 Budget Calculator
 
-A calculator created by **Thiink Media Graphics** for My College, implementing the popular 50/30/20 budgeting rule to help users allocate their income into needs, wants, and savings.
+A calculator created by **Thiink Media Graphics** for My College Finance, implementing the popular 50/30/20 budgeting rule to help users allocate their income into needs, wants, and savings.
 
 ## Live Demo
 
